@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Example for the grab.js AJAX Library</h2>
+    <p id="exampleSubheader">Result of each call:</p>
+    <p id="consoleOutput"></p>
+    <p id="demo"></p>
+    <p id="consoleOutput"></p>
+    <p id="exampleParagraph">Click on the buttons to demonstrate different examples:</p>
+    <!-- Separate buttons for each example -->
+    <button onclick="performSpecificHeaderPOST()">Perform specific header with POST</button>
+    <button onclick="performMultipleHeadersPOST()">Perform multiple headers with POST</button>
+    <button onclick="performSpecificHeaderGET()">Perform specific header with GET</button>
+    <button onclick="performAllHeadersGET()">Perform all headers with GET</button>
+    <button onclick="performAbort()">Perform aborting the request</button>
+    <button onclick="performCORS(true)">Perform enabling CORS</button>
+    <button onclick="performCORS(false)">Perform disabling CORS</button>
+    <button onclick="performErrorHandling()">Perform error handling with POST</button>
+
+    <script src="/script.js"></script>
+    <script>
+        function performSpecificHeaderPOST() {
+            grab.here("demo", 'all')
+                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
+                .setData({ title: 'foo', body: 'bar', userId: 1 })
+                .done();
+        }
+
+        function performMultipleHeadersPOST() {
+            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'Authorization': 'Bearer 22342983953' })
+                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
+                .setData({ title: 'foo', body: 'bar', userId: 1 })
+                .done();
+        }
+
+        function performSpecificHeaderGET() {
+            grab.here("demo", 'all')
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+                .done();
+        }
+
+        function performAllHeadersGET() {
+            grab.here("demo", 'all')
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+                .done();
+        }
+
+        function performAbort() {
+            setTimeout(function () {
+                grab.abort(); // Simulate aborting the request after a delay
+            }, 2000); // Abort after 2 seconds
+        }
+
+        function performCORS(enable) {
+            grab.here("demo", 'all')
+                .cors(enable)
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+                .done();
+        }
+
+        function performErrorHandling() {
+            grab.here("demo", 'all')
+                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
+                .setData({ title: 'foo', body: 'bar', userId: 1 })
+                .error(function () {
+                    console.error('An error occurred during the request.');
+                    document.getElementById("consoleOutput").innerHTML = 'An error occurred during the request.';
+                })
+                .done();
+        }
+    </script>
+
+</body>
+
+</html>
