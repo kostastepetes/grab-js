@@ -22,45 +22,45 @@
     <script src="/script.js"></script>
     <script>
         function performSpecificHeaderPOST() {
-            grab.here("demo", 'all')
+            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
                 .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
                 .setData({ title: 'foo', body: 'bar', userId: 1 })
                 .done();
         }
-
+    
         function performMultipleHeadersPOST() {
-            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'Authorization': 'Bearer 22342983953' })
+            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'id': '101', 'title': 'lorem ipsum' })
                 .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
                 .setData({ title: 'foo', body: 'bar', userId: 1 })
                 .done();
         }
-
+    
         function performSpecificHeaderGET() {
-            grab.here("demo", 'all')
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'title': 'enim quo cumque' })
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts", true)
                 .done();
         }
-
+    
         function performAllHeadersGET() {
-            grab.here("demo", 'all')
+            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
                 .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
                 .done();
         }
-
+    
         function performAbort() {
             setTimeout(function () {
                 grab.abort(); // Simulate aborting the request after a delay
             }, 2000); // Abort after 2 seconds
         }
-
+    
         function performCORS(enable) {
-            grab.here("demo", 'all')
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true, enable)
+            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts/", true, enable)
                 .done();
         }
-
+    
         function performErrorHandling() {
-            grab.here("demo", 'all')
+            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
                 .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
                 .setData({ title: 'foo', body: 'bar', userId: 1 })
                 .error(function () {
@@ -70,6 +70,7 @@
                 .done();
         }
     </script>
+    
 
 </body>
 
