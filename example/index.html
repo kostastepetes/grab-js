@@ -55,8 +55,7 @@
 
         function performCORS(enable) {
             grab.here("demo", 'all')
-                .cors(enable)
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true, enable)
                 .done();
         }
 
