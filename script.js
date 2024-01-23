@@ -6,22 +6,24 @@ const grab = {
     async: true,
     xhr: new XMLHttpRequest(),
   
-    cors: function(enable) {
+    perform: function(method, url, async, enableCors) {
+      this.method = method;
+      this.url = url;
+      this.async = async;
+      this.xhr = new XMLHttpRequest();
+      this.cors(enableCors || false);
+      return this;
+     },
+     
+     cors: function(enable) {
       this.xhr.withCredentials = enable;
       return this;
-    },
+     },
   
     here: function(targetElement, responseType, headers) {
       this.targetElement = document.getElementById(targetElement);
       this.callback = responseType;
       this.headers = headers;
-      return this;
-    },
-  
-    perform: function(method, url, async) {
-      this.method = method;
-      this.url = url;
-      this.async = async;
       return this;
     },
     
@@ -68,9 +70,6 @@ const grab = {
         this.xhr.onload = function () {
             self.handleResponse();
         };
-    
-        // Set withCredentials before opening the XMLHttpRequest
-        this.xhr.withCredentials = this.xhr.withCredentials || false;
     
         this.xhr.open(this.method, this.url, this.async);
     
