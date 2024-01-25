@@ -7,7 +7,6 @@
     <p id="exampleSubheader">Result of each call:</p>
     <p id="consoleOutput"></p>
     <p id="demo"></p>
-    <p id="consoleOutput"></p>
     <p id="exampleParagraph">Click on the buttons to demonstrate different examples:</p>
     <!-- Separate buttons for each example -->
     <button onclick="performSpecificHeaderPOST()">Perform specific header with POST</button>
@@ -21,54 +20,69 @@
 
     <script src="/script.js"></script>
     <script>
+        // Example functions using the updated grab.js library
+
         function performSpecificHeaderPOST() {
-            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
-                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
-                .setData({ title: 'foo', body: 'bar', userId: 1 })
+            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+                .here('consoleOutput', yourCallbackFunction)
+                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+                .setHeaders({ 'Content-type': 'application/json' })
                 .done();
         }
-    
+
         function performMultipleHeadersPOST() {
-            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'id': '101', 'title': 'lorem ipsum' })
-                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
-                .setData({ title: 'foo', body: 'bar', userId: 1 })
+            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+                .here('consoleOutput', yourCallbackFunction)
+                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+                .setHeaders({
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer your_access_token'
+                })
                 .done();
         }
-    
+
         function performSpecificHeaderGET() {
-            grab.here("demo", 'header', { 'Content-Type': 'application/json', 'title': 'enim quo cumque' })
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts", true)
+            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
+                .here('consoleOutput', yourCallbackFunction)
+                .setHeaders({ 'Accept': 'application/json' })
                 .done();
         }
-    
+
         function performAllHeadersGET() {
-            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts/1", true)
+            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
+                .here('consoleOutput', 'all')
                 .done();
         }
-    
+
         function performAbort() {
             setTimeout(function () {
                 grab.abort(); // Simulate aborting the request after a delay
             }, 2000); // Abort after 2 seconds
         }
-    
+
         function performCORS(enable) {
-            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
-                .perform("GET", "https://jsonplaceholder.typicode.com/posts/", true, enable)
+            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true, enable)
+                .here('consoleOutput', yourCallbackFunction)
                 .done();
         }
-    
+
         function performErrorHandling() {
-            grab.here("demo", 'all', { 'Content-Type': 'application/json' })
-                .perform("POST", "https://jsonplaceholder.typicode.com/posts", true)
-                .setData({ title: 'foo', body: 'bar', userId: 1 })
+            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+                .here('consoleOutput', yourCallbackFunction)
+                .setData(JSON.stringify({ title: 'Invalid Post' }))
+                .setHeaders({ 'Content-type': 'application/json' })  // Set the content type header
                 .error(function () {
-                    console.error('An error occurred during the request.');
-                    document.getElementById("consoleOutput").innerHTML = 'An error occurred during the request.';
+                    console.log('Error occurred during the request.');
+                    // Handle error appropriately
                 })
                 .done();
         }
+
+        // Your actual callback function
+        function yourCallbackFunction(responseHeaders) {
+            console.log('Response Headers:', responseHeaders);
+        }
+
     </script>
     
 
