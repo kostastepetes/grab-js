@@ -5,6 +5,7 @@ const grab = {
   url: null,
   async: true,
   xhr: new XMLHttpRequest(),
+  headers: null, // Added headers property
 
   perform: function(method, url, async, enableCors) {
     this.method = method;
@@ -13,20 +14,24 @@ const grab = {
     this.xhr = new XMLHttpRequest();
     this.cors(enableCors || false);
     return this;
-   },
-   
-   cors: function(enable) {
+  },
+
+  cors: function(enable) {
     this.xhr.withCredentials = enable;
     return this;
-   },
+  },
 
-  here: function(targetElement, responseType, headers) {
+  here: function(targetElement, responseType) {
     this.targetElement = document.getElementById(targetElement);
     this.callback = responseType;
+    return this;
+  },
+
+  setHeaders: function(headers) {
     this.headers = headers;
     return this;
   },
-  
+
   setData: function(data) {
     this.data = data;
     return this;
@@ -65,52 +70,54 @@ const grab = {
     return this;
   },
 
-  done: function () {
-      const self = this;
-      this.xhr.onload = function () {
-          self.handleResponse();
-      };
-  
-      this.xhr.open(this.method, this.url, this.async);
-  
-      if (this.xhr.withCredentials) {
-          console.log('CORS is enabled.');
-      } else {
-          console.log('CORS is disabled.');
+  done: function() {
+    const self = this;
+    this.xhr.onload = function() {
+      self.handleResponse();
+    };
+
+    this.xhr.open(this.method, this.url, this.async);
+
+    if (this.xhr.withCredentials) {
+      console.log('CORS is enabled.');
+    } else {
+      console.log('CORS is disabled.');
+    }
+
+    if (this.headers) {
+      // Set custom headers if provided
+      for (const [headerName, headerValue] of Object.entries(this.headers)) {
+        this.xhr.setRequestHeader(headerName, headerValue);
       }
-  
-      if (this.headers) {
-          // Set custom headers if provided
-          for (const [headerName, headerValue] of Object.entries(this.headers)) {
-              this.xhr.setRequestHeader(headerName, headerValue);
-          }
+    }
+
+    if (this.method.toUpperCase() === 'POST') {
+      if (!this.headers || !this.headers['Content-type']) {
+        console.error('Content type is not specified for POST request.');
+        return;
       }
-  
-      if (this.method.toUpperCase() === 'POST') {
-          if (!this.headers || !this.headers['Content-Type']) {
-              console.error('Content type is not specified for POST request.');
-              return;
-          }
-      }
-  
-      this.xhr.send(this.data);
+    }
+
+    this.xhr.send(this.data);
   },
-  
+
   handleResponse: function() {
     const responseHeaders = this.xhr.getAllResponseHeaders();
 
     if (this.targetElement) {
-     if (typeof this.callback === 'function') {
+      if (typeof this.callback === 'function') {
         this.callback.call(this.targetElement, responseHeaders);
-     } else if (this.callback === 'all') {
+      } else if (this.callback === 'all') {
         this.targetElement.innerHTML = responseHeaders;
-     } else if (this.callback === 'header' && this.headers && this.headers[this.headerName]) {
-        const specificHeader = this.xhr.getResponseHeader(this.headers[this.headerName]);
-        this.targetElement.innerHTML = specificHeader || 'Header not found';
-     }
+      } else if (this.callback === 'header' && this.headers) {
+        for (const [headerName, headerValue] of Object.entries(this.headers)) {
+          const specificHeader = this.xhr.getResponseHeader(headerValue);
+          this.targetElement.innerHTML += `${headerName}: ${specificHeader || 'Header not found'}<br>`;
+        }
+      }
     }
-  }
+  },
 };
 
-// Expose grab to global scope
+// Expose grab to the global scope
 window.grab = grab;
