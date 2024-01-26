@@ -5,16 +5,17 @@ const grab = {
   url: null,
   async: true,
   xhr: new XMLHttpRequest(),
-  headers: null, // Added headers property
+  headers: null,
+  enableCors: false,
 
-  perform: function(method, url, async, enableCors) {
+  perform: function(method, url, async, enable) {
     this.method = method;
     this.url = url;
     this.async = async;
     this.xhr = new XMLHttpRequest();
-    this.cors(enableCors || false);
+    this.cors(enable !== undefined ? enable : this.enableCors);
     return this;
-  },
+ },
 
   cors: function(enable) {
     this.xhr.withCredentials = enable;
@@ -61,7 +62,7 @@ const grab = {
   abort: function() {
     this.xhr.abort();
     console.log('Request aborted.');
-    // Handle abortion appropriately
+    
     return this;
   },
 
@@ -85,7 +86,7 @@ const grab = {
     }
 
     if (this.headers) {
-      // Set custom headers if provided
+      
       for (const [headerName, headerValue] of Object.entries(this.headers)) {
         this.xhr.setRequestHeader(headerName, headerValue);
       }
@@ -102,22 +103,22 @@ const grab = {
   },
 
   handleResponse: function() {
-    const responseHeaders = this.xhr.getAllResponseHeaders();
+    const response = this.xhr.response;
 
     if (this.targetElement) {
-      if (typeof this.callback === 'function') {
-        this.callback.call(this.targetElement, responseHeaders);
-      } else if (this.callback === 'all') {
-        this.targetElement.innerHTML = responseHeaders;
-      } else if (this.callback === 'header' && this.headers) {
-        for (const [headerName, headerValue] of Object.entries(this.headers)) {
-          const specificHeader = this.xhr.getResponseHeader(headerValue);
-          this.targetElement.innerHTML += `${headerName}: ${specificHeader || 'Header not found'}<br>`;
+        if (typeof this.callback === 'function') {
+            this.callback.call(this.targetElement, response);
+        } else if (this.callback === 'all') {
+            this.targetElement.innerHTML = response;
+        } else if (this.callback === 'header' && this.headers) {
+            for (const [headerName, headerValue] of Object.entries(this.headers)) {
+                const specificHeader = this.xhr.getResponseHeader(headerValue);
+                this.targetElement.innerHTML += `${headerName}: ${specificHeader || 'Header not found'}<br>`;
+            }
         }
-      }
     }
   },
 };
 
-// Expose grab to the global scope
+
 window.grab = grab;
