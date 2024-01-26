@@ -6,16 +6,13 @@
 ## Table of Contents
 1. [Initialization](#initialization)
 2. [Configuration Methods](#configuration-methods)
-    - [here](#here)
     - [perform](#perform)
+    - [here](#here)
     - [setData](#setdata)
-    - [responseType](#responsetype)
-    - [cors](#cors)
+    - [setHeaders](#setheaders)
+    - [enableCors](#enablecors)
     - [error](#error)
-    - [timeout](#timeout)
-    - [progress](#progress)
     - [abort](#abort)
-    - [cache](#cache)
 3. [Request Execution](#request-execution)
     - [done](#done)
 4. [Examples](#examples)
@@ -27,34 +24,35 @@ Include the `grab.js` script in your HTML file to use it:
 ```
 
 ## Configuration Methods<a name="configuration-methods"></a>
-### here(targetElement, responseType, headers)
-Set the target HTML element, response type, and custom headers for the request.
-```javascript
-grab.here("demo", 'header', {'Content-Type': 'application/json'});
-```
-
 ### perform(method, url, async)
 Specify the HTTP method, URL, and asynchronous flag for the request.
 ```javascript
-grab.perform("GET", "ajax_info.txt", true);
+grab.perform("GET", "https://jsonplaceholder.typicode.com/posts", true);
+```
+
+### here(targetElement, callback)
+Set the target HTML element and callback function for the request.
+```javascript
+grab.here('HTMLElement', yourCallbackFunction);
 ```
 
 ### setData(data)
 Set the request payload data.
 ```javascript
-grab.setData("fname=Henry&lname=Ford");
+grab.setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }));
 ```
 
-### responseType(type)
-Set the response type for the request.
+### setHeaders(headers)
+Set the headers for the request.
 ```javascript
-grab.responseType('json');
+grab.setHeaders({ 'Content-type': 'application/json' });
 ```
 
-### cors(enable)
-Enable or disable Cross-Origin Resource Sharing (CORS).
+### enableCors(enable)
+Enable or disable Cross-Origin Resource Sharing (CORS) globally for all requests made using the `grab.js` library.
 ```javascript
-grab.cors(true);
+grab.enableCors = true; 
+grab.enableCors = false;
 ```
 
 ### error(callback)
@@ -65,32 +63,10 @@ grab.error(function() {
 });
 ```
 
-### timeout(milliseconds, callback)
-Set a timeout for the request and provide a callback for timeout events.
-```javascript
-grab.timeout(5000, function() {
-    console.error('Request timed out.');
-});
-```
-
-### progress(callback)
-Set a callback function to handle progress events during the request.
-```javascript
-grab.progress(function(event) {
-    console.log('Progress:', event.loaded, 'out of', event.total, 'bytes');
-});
-```
-
 ### abort()
 Abort the ongoing request.
 ```javascript
 grab.abort();
-```
-
-### cache(value)
-Set the 'Cache-Control' header for the request.
-```javascript
-grab.cache('no-cache');
 ```
 
 ## Request Execution<a name="request-execution"></a>
@@ -103,53 +79,77 @@ grab.done();
 ## Examples<a name="examples"></a>
 ### Specific Header with POST and Custom Content-Type
 ```javascript
-grab.here("demo", 'header', {'Content-Type': 'application/json'})
-    .perform("POST", "ajax_test.asp", true)
-    .setData("fname=Henry&lname=Ford")
-    .done();
+function performSpecificHeaderPOST() {
+    grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+        .here('HTMLElement', yourCallbackFunction)
+        .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+        .setHeaders({ 'Content-type': 'application/json' })
+        .done();
+}
 ```
 
 ### Multiple Headers
 ```javascript
-grab.here("demo", 'header', {'Content-Type': 'application/json', 'Authorization': 'Bearer 22342983953'})
-    .perform("POST", "ajax_test.asp", true)
-    .setData("fname=Henry&lname=Ford")
-    .done();
+function performMultipleHeadersPOST() {
+    grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+        .here('HTMLElement', yourCallbackFunction)
+        .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+        .setHeaders({
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer your_access_token'
+        })
+        .done();
+}
 ```
 
 ### Specific Header
 ```javascript
-grab.here("demo", 'header', {'Last-Modified': 'some-date'})
-    .perform("GET", "ajax_info.txt", true)
-    .done();
+function performSpecificHeaderGET() {
+    grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
+        .here('HTMLElement', yourCallbackFunction)
+        .setHeaders({ 'Accept': 'application/json' })
+        .done();
+}
 ```
 
 ### All Headers
 ```javascript
-grab.here("demo", 'all')
-    .perform("GET", "ajax_info.txt", true)
-    .done();
+function performAllHeadersGET() {
+    grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
+        .here('HTMLElement', 'all')
+        .done();
+}
 ```
 
 ### Aborting the Request
 ```javascript
-setTimeout(function() {
-    grab.abort(); // Simulate aborting the request after a delay
-}, 2000); // Abort after 2 seconds
+function performAbort() {
+    setTimeout(function() {
+        grab.abort(); // Simulate aborting the request after a delay
+    }, 2000); // Abort after 2 seconds
+}
 ```
 
 ### Enabling CORS
 ```javascript
-grab.here("demo", 'all')
-    .cors(true)
-    .perform("GET", "https://example.com/api/data", true)
-    .done();
+function performCORS(enable) {
+    grab.enableCors = enable;
+    grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true, enable)
+        .here('HTMLElement', yourCallbackFunction)
+        .done();
+}
 ```
 
-### Disabling CORS
+### Error Handling
 ```javascript
-grab.here("demo", 'all')
-    .cors(false)
-    .perform("GET", "https://example.com/api/data", true)
-    .done();
+function performErrorHandling() {
+    grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
+        .here('HTMLElement', yourCallbackFunction)
+        .setData(JSON.stringify({ title: 'Invalid Post' }))
+        .setHeaders({ 'Content-type': 'application/json' })
+        .error(function() {
+            console.log('Error occurred during the request.');
+        })
+        .done();
+}
 ```
