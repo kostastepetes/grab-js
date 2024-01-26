@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 1;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+h2 {
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+p {
+    color: #666;
+    text-align: center;
+    padding: 10px 0;
+}
+pre {
+background-color: #f5f5f5;
+border: 1px solid #ddd;
+border-radius: 4px;
+padding: 10px;
+margin: 10px 0;
+overflow: auto;
+max-height: 200px;
+}
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+}
+button {
+    display: block;
+    width: 80%;
+    height: 40px;
+    margin: 10px auto;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.demo-btn.active {
+    background-color: red;
+}
+@media screen and (min-width: 600px) {
+    button {
+        width: 40%;
+        display: inline-block;
+        margin: 10px;
+    }
+}
