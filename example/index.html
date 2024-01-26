@@ -1,90 +1,38 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+    <title>grab.js AJAX Library | Docs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property='og:title' content='grab.js AJAX Library | Docs' />
+    <meta property='og:description' content='grab.js is a simple and comprehensive AJAX library that allows you to perform AJAX requests with ease.' />
+    <meta property='og:type' content='website' />
+    <meta property='og:site_name' content='grab.js AJAX Library | Docs' />
+    <meta name="description" content="grab.js is a simple and comprehensive AJAX library that allows you to perform AJAX requests with ease.">
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-
     <h2>Example for the grab.js AJAX Library</h2>
     <p id="exampleSubheader">Result of each call:</p>
     <p id="consoleOutput"></p>
-    <p id="demo"></p>
     <p id="exampleParagraph">Click on the buttons to demonstrate different examples:</p>
-    <!-- Separate buttons for each example -->
-    <button onclick="performSpecificHeaderPOST()">Perform specific header with POST</button>
-    <button onclick="performMultipleHeadersPOST()">Perform multiple headers with POST</button>
-    <button onclick="performSpecificHeaderGET()">Perform specific header with GET</button>
-    <button onclick="performAllHeadersGET()">Perform all headers with GET</button>
-    <button onclick="performAbort()">Perform aborting the request</button>
-    <button onclick="performCORS(true)">Perform enabling CORS</button>
-    <button onclick="performCORS(false)">Perform disabling CORS</button>
-    <button onclick="performErrorHandling()">Perform error handling with POST</button>
+    <div class="button-container">
+        <button class="demo-btn" onclick="performCORS(true)">Perform enabling CORS</button>
+        <button class="demo-btn" onclick="performCORS(false)">Perform disabling CORS</button>
+
+        <button class="demo-btn" onclick="performSpecificHeaderPOST()">Perform specific header with POST</button>
+        <button class="demo-btn" onclick="performMultipleHeadersPOST()">Perform multiple headers with POST</button>
+        <button class="demo-btn" onclick="performSpecificHeaderGET()">Perform specific header with GET</button>
+        <button class="demo-btn" onclick="performAllHeadersGET()">Perform all headers with GET</button>
+        <button class="demo-btn" onclick="performAbort()">Perform aborting the request</button>
+        <button class="demo-btn" onclick="performErrorHandling()">Perform error handling with POST</button>
+    </div>
+    <div id="functionsSection"></div>
+    <p id="exampleParagraph">The dummy data being used in this example are provided by:<a href="https://jsonplaceholder.typicode.com/" target="_blank"> JSONPlaceholder</a></p>
+    <div id="apiData"></div>
 
     <script src="/script.js"></script>
-    <script>
-        // Example functions using the updated grab.js library
-
-        function performSpecificHeaderPOST() {
-            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
-                .here('consoleOutput', yourCallbackFunction)
-                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
-                .setHeaders({ 'Content-type': 'application/json' })
-                .done();
-        }
-
-        function performMultipleHeadersPOST() {
-            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
-                .here('consoleOutput', yourCallbackFunction)
-                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
-                .setHeaders({
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer your_access_token'
-                })
-                .done();
-        }
-
-        function performSpecificHeaderGET() {
-            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
-                .here('consoleOutput', yourCallbackFunction)
-                .setHeaders({ 'Accept': 'application/json' })
-                .done();
-        }
-
-        function performAllHeadersGET() {
-            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
-                .here('consoleOutput', 'all')
-                .done();
-        }
-
-        function performAbort() {
-            setTimeout(function () {
-                grab.abort(); // Simulate aborting the request after a delay
-            }, 2000); // Abort after 2 seconds
-        }
-
-        function performCORS(enable) {
-            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true, enable)
-                .here('consoleOutput', yourCallbackFunction)
-                .done();
-        }
-
-        function performErrorHandling() {
-            grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
-                .here('consoleOutput', yourCallbackFunction)
-                .setData(JSON.stringify({ title: 'Invalid Post' }))
-                .setHeaders({ 'Content-type': 'application/json' })  // Set the content type header
-                .error(function () {
-                    console.log('Error occurred during the request.');
-                    // Handle error appropriately
-                })
-                .done();
-        }
-
-        // Your actual callback function
-        function yourCallbackFunction(responseHeaders) {
-            console.log('Response Headers:', responseHeaders);
-        }
-
-    </script>
-    
+    <script src="example.js"></script>
 
 </body>
 
