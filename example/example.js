@@ -12,7 +12,7 @@ buttons.forEach(button => {
         function performSpecificHeaderPOST() {
             grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
                 .here('consoleOutput', yourCallbackFunction)
-                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+                .setData(JSON.stringify({ title: 'Post Title 1', body: 'Post Body 1', userId: 1 }))
                 .setHeaders({ 'Content-type': 'application/json' })
                 .done();
         }
@@ -20,7 +20,7 @@ buttons.forEach(button => {
         function performMultipleHeadersPOST() {
             grab.perform('POST', 'https://jsonplaceholder.typicode.com/posts', true)
                 .here('consoleOutput', yourCallbackFunction)
-                .setData(JSON.stringify({ title: 'Post Title', body: 'Post Body', userId: 1 }))
+                .setData(JSON.stringify({ title: 'Post Title 2', body: 'Post Body 2', userId: 1 }))
                 .setHeaders({
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer your_access_token'
@@ -36,7 +36,7 @@ buttons.forEach(button => {
         }
 
         function performAllHeadersGET() {
-            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true)
+            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/2', true)
                 .here('consoleOutput', 'all')
                 .done();
         }
@@ -49,7 +49,7 @@ buttons.forEach(button => {
 
         function performCORS(enable) {
             grab.enableCors = enable;
-            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/1', true, enable)
+            grab.perform('GET', 'https://jsonplaceholder.typicode.com/posts/3', true, enable)
                 .here('consoleOutput', yourCallbackFunction)
                 .done();
         }
