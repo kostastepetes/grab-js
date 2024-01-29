@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>grab.js AJAX Library | Docs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property='og:title' content='grab.js AJAX Library | Docs' />
+    <meta property='og:description' content='grab.js is a simple and comprehensive AJAX library that allows you to perform AJAX requests with ease.' />
+    <meta property='og:type' content='website' />
+    <meta property='og:site_name' content='grab.js AJAX Library | Docs' />
+    <meta name="description" content="grab.js is a simple and comprehensive AJAX library that allows you to perform AJAX requests with ease.">
+    <link rel="icon" href="favicon2.ico" type="image/x-icon">
+</head>
+<body style="padding: 12px 34px;font-size: 12px;font-family: Arial, Helvetica, sans-serif;">
+<h1 id="grab-js-documentation">🤝 grab.js Documentation</h1>
+<h2 id="introduction">Introduction</h2>
+<p><code>grab.js</code> is a lightweight AJAX library that simplifies making XMLHttpRequests in JavaScript. It provides a convenient and chainable interface for configuring and executing AJAX requests with features such as handling headers, enabling CORS, setting timeouts, and more.</p>
+<h2 id="demo">Demo</h2>
+<p>Check out the functionality of <code>grab.js</code> in the following link: <a href="https://grab-js-demo.netlify.app/" target="_blank">DEMO</a></p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#initialization">Initialization</a></li>
+<li><a href="#configuration-methods">Configuration Methods</a><ul>
+<li><a href="#perform">perform</a></li>
+<li><a href="#here">here</a></li>
+<li><a href="#setdata">setData</a></li>
+<li><a href="#setheaders">setHeaders</a></li>
+<li><a href="#enablecors">enableCors</a></li>
+<li><a href="#error">error</a></li>
+<li><a href="#abort">abort</a></li>
+</ul>
+</li>
+<li><a href="#request-execution">Request Execution</a><ul>
+<li><a href="#done">done</a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a></li>
+</ol>
+<h2 id="initialization">Initialization<a name="initialization"></a></h2>
+<p>Include the <code>grab.js</code> script in your HTML file to use it:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"grab.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h2 id="configuration-methods">Configuration Methods<a name="configuration-methods"></a></h2>
+<h3 id="perform">perform(method, url, async)</h3>
+<p>Specify the HTTP method, URL, and asynchronous flag for the request.</p>
+<pre><code class="lang-javascript">grab.perform(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"https://jsonplaceholder.typicode.com/posts"</span>, true);
+</code></pre>
+<h3 id="here">here(targetElement, callback)</h3>
+<p>Set the target HTML element and callback function for the request.</p>
+<pre><code class="lang-javascript">grab.<span class="hljs-keyword">here</span>(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction);
+</code></pre>
+<h3 id="setdata">setData(data)</h3>
+<p>Set the request payload data.</p>
+<pre><code class="lang-javascript"><span class="hljs-selector-tag">grab</span><span class="hljs-selector-class">.setData</span>(<span class="hljs-selector-tag">JSON</span><span class="hljs-selector-class">.stringify</span>({ <span class="hljs-attribute">title</span>: <span class="hljs-string">'Post Title'</span>, body: <span class="hljs-string">'Post Body'</span>, userId: <span class="hljs-number">1</span> }));
+</code></pre>
+<h3 id="setheaders">setHeaders(headers)</h3>
+<p>Set the headers for the request.</p>
+<pre><code class="lang-javascript">grab.setHeaders({ <span class="hljs-symbol">'Content</span>-<span class="hljs-class"><span class="hljs-keyword">type</span>'</span>: <span class="hljs-symbol">'application</span>/json' });
+</code></pre>
+<h3 id="enablecors">enableCors(enable)</h3>
+<p>Enable or disable Cross-Origin Resource Sharing (CORS) globally for all requests made using the <code>grab.js</code> library.</p>
+<pre><code class="lang-javascript">grab.<span class="hljs-attr">enableCors</span> = <span class="hljs-literal">true</span>; 
+grab.<span class="hljs-attr">enableCors</span> = <span class="hljs-literal">false</span>;
+</code></pre>
+<h3 id="error">error(callback)</h3>
+<p>Set a callback function to handle errors during the request.</p>
+<pre><code class="lang-javascript">grab.<span class="hljs-built_in">error</span>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span> {
+    console.<span class="hljs-built_in">error</span>(<span class="hljs-string">'An error occurred during the request.'</span>);
+});
+</code></pre>
+<h3 id="abort">abort()</h3>
+<p>Abort the ongoing request.</p>
+<pre><code class="lang-javascript">grab.abort()<span class="hljs-comment">;</span>
+</code></pre>
+<h2 id="request-execution">Request Execution<a name="request-execution"></a></h2>
+<h3 id="done">done()</h3>
+<p>Execute the configured request.</p>
+<pre><code class="lang-javascript">grab.done()<span class="hljs-comment">;</span>
+</code></pre>
+<h2 id="examples-a-name-examples-a-">Examples<a name="examples"></a></h2>
+<h3 id="specific-header-with-post-and-custom-content-type">Specific Header with POST and Custom Content-Type</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performSpecificHeaderPOST</span>(<span class="hljs-params"></span>) </span>{
+    grab.perform(<span class="hljs-string">'POST'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts'</span>, <span class="hljs-literal">true</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction)
+        .setData(<span class="hljs-built_in">JSON</span>.stringify({ <span class="hljs-attr">title</span>: <span class="hljs-string">'Post Title'</span>, <span class="hljs-attr">body</span>: <span class="hljs-string">'Post Body'</span>, <span class="hljs-attr">userId</span>: <span class="hljs-number">1</span> }))
+        .setHeaders({ <span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'application/json'</span> })
+        .done();
+}
+</code></pre>
+<h3 id="multiple-headers">Multiple Headers</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performMultipleHeadersPOST</span>(<span class="hljs-params"></span>) </span>{
+    grab.perform(<span class="hljs-string">'POST'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts'</span>, <span class="hljs-literal">true</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction)
+        .setData(<span class="hljs-built_in">JSON</span>.stringify({ <span class="hljs-attr">title</span>: <span class="hljs-string">'Post Title'</span>, <span class="hljs-attr">body</span>: <span class="hljs-string">'Post Body'</span>, <span class="hljs-attr">userId</span>: <span class="hljs-number">1</span> }))
+        .setHeaders({
+            <span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'application/json'</span>,
+            <span class="hljs-string">'Authorization'</span>: <span class="hljs-string">'Bearer your_access_token'</span>
+        })
+        .done();
+}
+</code></pre>
+<h3 id="specific-header">Specific Header</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performSpecificHeaderGET</span><span class="hljs-params">()</span> </span>{
+    grab.perform(<span class="hljs-string">'GET'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts/1'</span>, <span class="hljs-literal">true</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction)
+        .setHeaders({ <span class="hljs-string">'Accept'</span>: <span class="hljs-string">'application/json'</span> })
+        .done();
+}
+</code></pre>
+<h3 id="all-headers">All Headers</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performAllHeadersGET</span><span class="hljs-params">()</span> </span>{
+    grab.perform(<span class="hljs-string">'GET'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts/1'</span>, <span class="hljs-literal">true</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, <span class="hljs-string">'all'</span>)
+        .done();
+}
+</code></pre>
+<h3 id="aborting-the-request">Aborting the Request</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performAbort</span><span class="hljs-params">()</span> {</span>
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        grab.<span class="hljs-keyword">abort</span>(); <span class="hljs-comment">// Simulate aborting the request after a delay</span>
+    }, <span class="hljs-number">2000</span>); <span class="hljs-comment">// Abort after 2 seconds</span>
+}
+</code></pre>
+<h3 id="enabling-cors">Enabling CORS</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">function</span> performCORS(<span class="hljs-built_in">enable</span>) {
+    grab.enableCors = <span class="hljs-built_in">enable</span>;
+    grab.perform(<span class="hljs-string">'GET'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts/1'</span>, <span class="hljs-literal">true</span>, <span class="hljs-built_in">enable</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction)
+        .done();
+}
+</code></pre>
+<h3 id="error-handling">Error Handling</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performErrorHandling</span>(<span class="hljs-params"></span>) </span>{
+    grab.perform(<span class="hljs-string">'POST'</span>, <span class="hljs-string">'https://jsonplaceholder.typicode.com/posts'</span>, <span class="hljs-literal">true</span>)
+        .here(<span class="hljs-string">'HTMLElement'</span>, yourCallbackFunction)
+        .setData(<span class="hljs-built_in">JSON</span>.stringify({ <span class="hljs-attr">title</span>: <span class="hljs-string">'Invalid Post'</span> }))
+        .setHeaders({ <span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'application/json'</span> })
+        .error(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error occurred during the request.'</span>);
+        })
+        .done();
+}
+</code></pre>
+</body>
+</html>
