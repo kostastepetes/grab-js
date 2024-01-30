@@ -3,6 +3,9 @@
 ## Introduction
 `grab.js` is a lightweight AJAX library that simplifies making XMLHttpRequests in JavaScript. It provides a convenient and chainable interface for configuring and executing AJAX requests with features such as handling headers, enabling CORS, setting timeouts, and more.
 
+## Current Version
+`grab.js` is a currently in BETA v0.1.0.
+
 ## Table of Contents
 1. [Initialization](#initialization)
 2. [Configuration Methods](#configuration-methods)
