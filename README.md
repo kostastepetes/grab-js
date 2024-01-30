@@ -20,7 +20,7 @@
 ## Initialization<a name="initialization"></a>
 Include the `grab.js` script in your HTML file to use it:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/kostastepetes/grab-js@v0.1.0/dist/grab.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kostastepetes/grab-js/dist/grab.min.js"></script>
 ```
 
 ## Configuration Methods<a name="configuration-methods"></a>
